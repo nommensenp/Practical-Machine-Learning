@@ -1,0 +1,17 @@
+{
+    "contents" : "#\n#\n#\n\na<-1",
+    "created" : 1403074076827.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2198250716",
+    "id" : "DC842111",
+    "lastKnownWriteTime" : 1403074122,
+    "path" : "//nlnafvaib01.avebe-ba.local/AVB_Users$/NommensenP/Opleiding/Machine Learning/Practical-Machine-Learning/code/initProject.R",
+    "project_path" : "code/initProject.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
