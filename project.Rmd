@@ -56,8 +56,6 @@ invalidate <- createDataPartition(y = testing$classe, p=0.5, list = FALSE)
 validate   <- testing[invalidate,]
 testing    <- testing[-invalidate,]
 
-inSub  <- createDataPartition(y = training$classe, p=0.05, list=FALSE)
-training <- training[inSub,]
 ```
 
 Prepare a prediction model

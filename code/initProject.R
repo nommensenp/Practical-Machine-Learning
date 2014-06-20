@@ -30,7 +30,7 @@ inSub <- createDataPartition(y = training$classe, p=0.05, list=FALSE)
 trainSub <- training[inSub,]
 
 # train a model
-modTree <- train(classe ~ . , met5hod = "rpart", data=training)
+modTree <- train(classe ~ . , method = "rpart", data=training)
 print(modTree)
 
 prediction <- predict(modTree, newdata=testing) 
@@ -58,3 +58,4 @@ prediction <- predict(modRF, newdata=dataAns)
 print(prediction)
 pwd <- getwd()
 setwd("projectAnwsers")
+pml_write_files(prediction)
