@@ -1,0 +1,124 @@
+Project to Practical Machine Learning
+========================================================
+Paul Nommensen, 20-06-2014
+
+Introduction
+------------
+
+This work was done in the frame of the Coursera course Practical Machine learning.
+
+Data was obtained from [http://groupware.les.inf.puc-rio.br/har](http://groupware.les.inf.puc-rio.br/har).  6 participants were asked to perform barbell lifts correctly and incorrectly in 5 different ways. Data was collected from accelerometers on the belt, forearm, arm, and dumbell. Goal of the project is to predict the way in which the barbell was lifted.
+
+```{r, message=FALSE, warning=FALSE}
+library(caret)
+```
+
+Loading the data
+----------------
+```{r}
+data <-  read.csv("data/pml-training.csv", na.strings = c("NA", "", "#DIV/0!"))
+```
+Note that the error message #DIV>0! in the data file are treated as a NA.
+
+Cleansing the data
+------------------
+Many columns contain mainly NA's. These columns are removed from the data set.
+```{r }
+countNA <- function(x) (sum(is.na(x)))
+noNA <- (sapply(data,countNA)==0)
+data <- data[,noNA]
+
+dim(data)
+```
+
+Covariate selection
+-------------------
+Some of the parameters contain information that seems to be irrelvant. The paramter x presents the order in which the observation were done. Also the actual moment in time the exercise was performed can not be used as a predictor because when an obervation is done at a later time it is out of range. So the parameters X, raw_timestamp_part_1, raw_timestamp_part_2 and cvtd_timestamp are removed from the data set. 
+
+The parameters new_window and num_window also seems to indicate the orderin which the observation were done. It is anticipated that these do not contain real information on the way a excersise was done. So both are removed from the data set.
+
+Note that the same persons are present in the test-dataset. So the paramter name can still be used in the predictions.
+ 
+```{r}
+data <- data[,c(-1,-3, -4, -5, -6, -7)]
+```
+
+Slicing the data
+----------------
+The data set is splitted in a training, test and validation set. The sets contain 60%, 20% and 20% of the data.
+```{r}
+set.seed(43563)
+intrain <- createDataPartition(y = data$classe, p=0.6, list=FALSE)
+training <- data[intrain,]
+testing <-  data[-intrain,]
+
+invalidate <- createDataPartition(y = testing$classe, p=0.5, list = FALSE)
+validate   <- testing[invalidate,]
+testing    <- testing[-invalidate,]
+
+inSub  <- createDataPartition(y = training$classe, p=0.05, list=FALSE)
+training <- training[inSub,]
+```
+
+Prepare a prediction model
+--------------------------
+### Predicting with a classification tree
+```{r, message=FALSE , warning=FALSE}
+modTree <- train(classe ~ . , method = "rpart", data=training)
+print(modTree)
+```
+
+```{r, message=FALSE , warning=FALSE}
+prediction <- predict(modTree, newdata=testing) 
+c<-confusionMatrix(prediction, testing$classe)
+accTree <- c$overall[1]
+print(c)
+```
+
+### Predicting with Linear discriminant analysis
+Another prediction algorithm is lda. In order to overcome the correlations among the predictors a PCA is performed on them and the PCA-scores are used in the modeling
+```{r, message=FALSE , warning=FALSE}
+modLDA <- train(classe ~ . , method = "lda", preProcess="pca", data=training)
+```
+
+```{r, message=FALSE , warning=FALSE}
+prediction <- predict(modLDA, newdata=testing) 
+c<-confusionMatrix(prediction, testing$classe)
+accLDA <- c$overall[1]
+print(c)
+```
+### Predicting with a random forrest
+```{r, message=FALSE , warning=FALSE}
+modRF <- train(classe ~ . , method = "rf", data=training, prox=TRUE)
+print(modRF)
+```
+
+```{r, message=FALSE , warning=FALSE}
+prediction <- predict(modRF, newdata=testing) 
+c<-confusionMatrix(prediction, testing$classe)
+accRF <- c$overall[1]
+print(c)
+```
+
+Selecting the optimal model
+---------------------------
+Several algorithms were tested. 
+* CART with a accuracy from cross validation of `r accTree`.
+* LDA with a accuracy from cross validation of `r accLDA`.
+* Random forrest with a accuracy from cross validation of `r accRF`.
+
+Based on the accuracy in predicting the test set,  the random forest model is selected as the optimal model. 
+
+
+The out of sample Error
+----------------------
+The randomforest model is used to predicted a validation set.
+
+```{r}
+prediction <- predict(modRF, newdata=validate) 
+c<-confusionMatrix(prediction, testing$classe)
+accVal <- c$overall[1]
+print(c)
+```
+
+__The accuracy on the validation set is `r accVal`. This indicates the model works rather well.__ This number is also close the result of the cross validation.

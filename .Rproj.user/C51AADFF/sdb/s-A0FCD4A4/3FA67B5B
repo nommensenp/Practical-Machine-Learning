@@ -1,0 +1,22 @@
+{
+    "contents" : "",
+    "created" : 1403263758901.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "3FA67B5B",
+    "lastKnownWriteTime" : 25896191778619393,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "caption" : "dataAns",
+        "contentUrl" : "content?title=dataAns&file=98dc11e157d84d8e9f2dc00aa61ce055.htm",
+        "displayedObservations" : 20,
+        "displayedVariables" : 60,
+        "totalObservations" : 20,
+        "variables" : 60
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}
