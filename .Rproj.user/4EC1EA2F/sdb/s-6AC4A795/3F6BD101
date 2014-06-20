@@ -1,0 +1,16 @@
+{
+    "contents" : "#\n#\n#\nlibrary(caret)\n\ndata <-  read.csv(\"data/pml-training.csv\", na.strings = c(\"NA\", \"\", \"#DIV/0!\"))\n\n# remove columns that are filled mainly with NA's\ncountNA <- function(x) (sum(is.na(x)))\nnoNA <- (sapply(data,countNA)==0)\ndata <- data[,noNA]\n\n# split data in training-testing and validation sets\nset.seed(43563)\nintrain <- createDataPartition(y = data$classe, p=0.6, list=FALSE)\ntraining <- data[intrain,]\ntesting <-  data[-intrain,]\n\ninvalidate <- createDataPartition(y = testing$classe, p=0.5, list = FALSE)\nvalidate   <- testing[invalidate,]\ntesting    <- testing[-invalidate,]\n\n",
+    "created" : 1403241920502.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2052565198",
+    "id" : "3F6BD101",
+    "lastKnownWriteTime" : 1403247126,
+    "path" : "~/Opleiding/Machine Learning/Practical-Machine-Learning/code/initProject.R",
+    "project_path" : "code/initProject.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

@@ -1,17 +1,17 @@
 {
-    "contents" : "#\n#\n#\n\na<-1",
+    "contents" : "#\n#\n#\n\n\ndata <-  read.csv(\"data/pml-training.csv\", na.strings = c(\"NA\", \"\", \"#DIV/0!\"))\n\n\n",
     "created" : 1403074076827.000,
-    "dirty" : false,
+    "dirty" : true,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "2198250716",
+    "hash" : "1001771031",
     "id" : "DC842111",
-    "lastKnownWriteTime" : 1403074122,
-    "path" : "//nlnafvaib01.avebe-ba.local/AVB_Users$/NommensenP/Opleiding/Machine Learning/Practical-Machine-Learning/code/initProject.R",
+    "lastKnownWriteTime" : 1403075580,
+    "path" : "~/Opleiding/Machine Learning/Practical-Machine-Learning/code/initProject.R",
     "project_path" : "code/initProject.R",
     "properties" : {
         "tempName" : "Untitled1"
     },
-    "source_on_save" : false,
+    "source_on_save" : true,
     "type" : "r_source"
 }
